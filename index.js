@@ -23,6 +23,31 @@ class Calculator {
         this.resultValue.textContent = '0'
     }
 
+    //sum method
+    sum(n1, n2) {
+        return parseFloat(n1) + parseFloat(n2)
+    }
+
+    //subtraction method
+    subtraction(n1, n2) {
+        return parseFloat(n1) - parseFloat(n2)
+    }
+
+    //multiplication method
+    multiplication(n1, n2) {
+        return parseFloat(n1) * parseFloat(n2)
+    }
+
+    //division method
+    division(n1, n2) {
+        return parseFloat(n1) / parseFloat(n2)
+    }
+
+    // update values
+    refreshValues(total) {
+        this.upperValue.textContent = total
+        this.resultValue.textContent = total
+    }
     // solve the operation
     resolutiton() {
         // turn string into array
@@ -37,8 +62,13 @@ class Calculator {
                 result = parseFloat(upperValueArray[i - 1]) + parseFloat(upperValueArray[i + 1])
             }
         }
-        this.upperValue.textContent = result
-        this.resultValue.textContent = result
+
+        if (result) {
+            calculator.reset = 1
+        }
+
+        // update total
+        calculator.refreshValues(result)
     }
 
     btnPress() {
@@ -48,6 +78,14 @@ class Calculator {
 
         //check if it is only numbers
         var reg = new RegExp('^\\d+$')
+
+        // clear the display if there's need for that 
+        if (calculator.reset && reg.test(input)) {
+            upperValue = '0'
+        }
+
+        // clear the reset prop
+        calculator.reset = 0
 
         // clear the display
         if (input == 'AC') {
