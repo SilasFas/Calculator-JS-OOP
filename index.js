@@ -56,10 +56,34 @@ class Calculator {
         let result = 0
 
         for (let i = 0; i <= upperValueArray.length; i++) {
+
+            let operation = 0
             let actualitem = upperValueArray[i]
 
-            if (actualitem == '+') {
-                result = parseFloat(upperValueArray[i - 1]) + parseFloat(upperValueArray[i + 1])
+            if (actualitem == 'x') {
+                // multiplication
+                result = calculator.multiplication(upperValueArray[i - 1] + upperValueArray[i + 1])
+            } else if (actualitem == '/') {
+                //division
+                result = calculator.division(upperValueArray[i - 1] + upperValueArray[i + 1])
+                // check if there's multipplication and division to be done in the array
+            } else if (!upperValueArray.includes('x') && !upperValueArray.includes('/')) {
+                //sum and subtraction
+
+
+            }
+
+            // update array values for the next iteration
+            if (operation) {
+
+                // previous index in the operation result
+                upperValueArray[i - 1]
+
+                // remove operation used items
+                upperValueArray.splice(i, 2)
+
+                // update index value
+                i = 0
             }
         }
 
