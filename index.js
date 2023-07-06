@@ -50,49 +50,33 @@ class Calculator {
     }
     // solve the operation
     resolutiton() {
-        // turn string into array
-        let upperValueArray = (this.upperValue.textContent).split(' ')
-        // operation result
-        let result = 0
+        let upperValueArray = this.upperValue.textContent.split(' ');
 
-        for (let i = 0; i <= upperValueArray.length; i++) {
-
-            let operation = 0
-            let actualitem = upperValueArray[i]
-
-            if (actualitem == 'x') {
-                // multiplication
-                result = calculator.multiplication(upperValueArray[i - 1] + upperValueArray[i + 1])
-            } else if (actualitem == '/') {
-                //division
-                result = calculator.division(upperValueArray[i - 1] + upperValueArray[i + 1])
-                // check if there's multipplication and division to be done in the array
-            } else if (!upperValueArray.includes('x') && !upperValueArray.includes('/')) {
-                //sum and subtraction
-
-
-            }
-
-            // update array values for the next iteration
-            if (operation) {
-
-                // previous index in the operation result
-                upperValueArray[i - 1]
-
-                // remove operation used items
-                upperValueArray.splice(i, 2)
-
-                // update index value
-                i = 0
+        // Perform multiplication and division operations first
+        for (let i = 1; i < upperValueArray.length; i += 2) {
+            if (upperValueArray[i] === 'x') {
+                const result = this.multiplication(upperValueArray[i - 1], upperValueArray[i + 1]);
+                upperValueArray.splice(i - 1, 3, result);
+                i -= 2;
+            } else if (upperValueArray[i] === '/') {
+                const result = this.division(upperValueArray[i - 1], upperValueArray[i + 1]);
+                upperValueArray.splice(i - 1, 3, result);
+                i -= 2;
             }
         }
 
-        if (result) {
-            calculator.reset = 1
+        let result = parseFloat(upperValueArray[0]);
+
+        // Perform addition and subtraction operations
+        for (let i = 1; i < upperValueArray.length; i += 2) {
+            if (upperValueArray[i] === '+') {
+                result = this.sum(result, parseFloat(upperValueArray[i + 1]));
+            } else if (upperValueArray[i] === '-') {
+                result = this.subtraction(result, parseFloat(upperValueArray[i + 1]));
+            }
         }
 
-        // update total
-        calculator.refreshValues(result)
+        this.refreshValues(result);
     }
 
     btnPress() {
@@ -129,7 +113,9 @@ class Calculator {
             }
 
             if (upperValue == '0') {
-                calculator.upperValue.textContent = input
+                if (reg.test(input)) {
+                    calculator.upperValue.textContent = input
+                }
 
             } else {
                 calculator.upperValue.textContent += input
