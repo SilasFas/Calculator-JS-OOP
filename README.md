@@ -9,7 +9,6 @@ This is a solution to create a calculator by using the concepts of object-orient
   - [Continued development](#continued-development)
   - [Useful resources](#useful-resources)
 - [Author](#author)
-- [Acknowledgments](#acknowledgments)
 
 ### Links
 
